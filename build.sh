@@ -11,6 +11,11 @@ if [[ "${GITHUB_ACTIONS}" != "true" || "${OSTYPE}" != "linux-gnu" ]]; then
   fi
 fi
 
+echo "::group:: Cleaning up"
+docker rmi -f $(docker images -q)
+wget -q https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh && NONINTERACTIVE=1 bash ./uninstall.sh -f -q
+echo "::endgroup::"
+
 sudo apt update
 sudo apt install -y git libssl-dev gcc-arm-linux-gnueabi build-essential libncurses5-dev bzip2 make gcc g++ grep bc curl bison flex openssl lzop ccache unzip zlib1g-dev file ca-certificates ccache wget cmake texinfo ca-certificates zlib1g-dev xz-utils libelf-dev zip libgmp-dev xz-utils libncurses-dev g++ gawk m4 libtinfo5 cpio binutils-dev libelf-dev cmake ninja-build texinfo u-boot-tools python zstd clang
 
