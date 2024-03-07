@@ -2,7 +2,7 @@ name: 'AOSP clang compile action'
 author: 'NekoSekaiMoe'
 description: 'compile anyother architecture AOSP clang from Github Actions'
 inputs:
-  version:
+  versions:
     default: "r416183b"
   version_hash:
     default: "c935d99d7cf2016289302412d708641d52d2f7ee"
