@@ -1,0 +1,28 @@
+name: 'AOSP clang compile action'
+author: 'NekoSekaiMoe'
+description: 'compile anyother architecture AOSP clang from Github Actions'
+inputs:
+  version:
+    default: "r416183b"
+  version_hash:
+    default: "c935d99d7cf2016289302412d708641d52d2f7ee"
+  android_hash:
+    default: "07e984be2f6074fb044e0ae06b9027f350fe8844"
+  util_hash:
+    default: "f5cc9231be5ecd6d0159b352dfb014926bfa77e6"
+branding:
+  icon: 'layers'
+  color: 'green'
+runs:
+  using: "composite"
+  steps:
+    - name: 'Cleanup Operation'
+      shell: bash
+      run: |
+        chmod a+x $GITHUB_ACTION_PATH/build.sh
+        bash $GITHUB_ACTION_PATH/build.sh
+      env:
+        version: "${{ inputs.version }}"
+        version_hash: "${{ inputs.version_hash }}"
+        android_hash: "${{ inputs.android_hash }}"
+        util_hash: "${{ inputs.util_hash }}"
