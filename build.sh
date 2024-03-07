@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+set -eux
 if [[ ${GITHUB_ACTIONS} != "true" || ${OSTYPE} != "linux-gnu" ]]; then
     if [ !-f /usr/bin/apt ]; then
         printf "This Action Is Intended For Ubuntu Runner.\n"
