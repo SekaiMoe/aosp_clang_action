@@ -22,7 +22,7 @@ runs:
         chmod a+x $GITHUB_ACTION_PATH/build.sh
         bash $GITHUB_ACTION_PATH/build.sh
       env:
-        clang_version: "${{ inputs.version }}"
+        clang_version: "${{ inputs.versions }}"
         version_hash: "${{ inputs.version_hash }}"
         android_hash: "${{ inputs.android_hash }}"
         util_hash: "${{ inputs.util_hash }}"
