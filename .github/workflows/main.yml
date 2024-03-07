@@ -20,7 +20,7 @@ jobs:
         run: sudo apt update && sudo apt install -y ${{ matrix.lint }}
       - name: lint
         run: |
-          if [ ${{ matrix.lint }} == "shfmt"]; then
+          if [ ${{ matrix.lint }} = "shfmt" ]; then
               shfmt -w -i 2 build.sh
           else
               ${{ matrix.lint }} build.sh
