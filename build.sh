@@ -38,7 +38,7 @@ cd ..
 
 export versionss=$(echo "$clang_version" | sed 's/r\([0-9]\+\)[a-zA-Z]\?/\1/g')
 
-python3 toolchain-utils/llvm_tools/patch_manager.py --svn_version "$clang_version" --patch_metadata_file llvm_android/patches/PATCHES.json --filesdir_path llvm_android/patches --src_path llvm-project --use_src_head --failure_mode fail
+python3 toolchain-utils/llvm_tools/patch_manager.py --svn_version "$versionss" --patch_metadata_file llvm_android/patches/PATCHES.json --filesdir_path llvm_android/patches --src_path llvm-project --use_src_head --failure_mode fail
 
 cd llvm-project
 mkdir build
