@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2086,SC2154,SC2155,SC2046,SC2001,SC2063
+
 set -eux
-if [[ ${GITHUB_ACTIONS} != "true" || ${OSTYPE} != "linux-gnu" ]]; then
-    if [ !-f /usr/bin/apt ]; then
-        printf "This Action Is Intended For Ubuntu Runner.\n"
-        exit 1
-    fi
+
+if [[ "${GITHUB_ACTIONS}" != "true" || "${OSTYPE}" != "linux-gnu" ]]; then
+  if [ ! -f /usr/bin/apt ]; then
+    printf "This Action Is Intended For Ubuntu Runner.\n"
+    exit 1
+  fi
 fi
 
 sudo apt update
@@ -20,30 +23,30 @@ git clone https://android.googlesource.com/toolchain/llvm_android --depth=1 --re
 git clone https://android.googlesource.com/toolchain/llvm-project --depth=1 --recursive
 
 cd toolchain-utils
-git checkout $util_hash
+git checkout "$util_hash"
 cd ..
 
 cd llvm-project
-git checkout $version_hash
+git checkout "$version_hash"
 cd ..
 
 cd llvm_android
-git checkout $android_hash
+git checkout "$android_hash"
 cd ..
 
-export versionss=$(echo $versions | sed 's/r\([0-9]\+\)[a-zA-Z]\?/\1/g')
+export versionss=$(echo "$clang_version" | sed 's/r\([0-9]\+\)[a-zA-Z]\?/\1/g')
 
-python3 toolchain-utils/llvm_tools/patch_manager.py --svn_version $versions --patch_metadata_file llvm_android/patches/PATCHES.json --filesdir_path llvm_android/patches --src_path llvm-project --use_src_head --failure_mode fail
+python3 toolchain-utils/llvm_tools/patch_manager.py --svn_version "$clang_version" --patch_metadata_file llvm_android/patches/PATCHES.json --filesdir_path llvm_android/patches --src_path llvm-project --use_src_head --failure_mode fail
 
 cd llvm-project
 mkdir build
 cd build
 cmake -G Ninja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
-        -DLLVM_TARGETS_TO_BUILD="AArch64;ARM" \
-        -DLLVM_BUILD_TESTS=OFF \
-        -DLLVM_ENABLE_WARNINGS=OFF \
-        -DCMAKE_INSTALL_PREFIX=$install_path ../llvm
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt" \
+  -DLLVM_TARGETS_TO_BUILD="AArch64;ARM" \
+  -DLLVM_BUILD_TESTS=OFF \
+  -DLLVM_ENABLE_WARNINGS=OFF \
+  -DCMAKE_INSTALL_PREFIX="$install_path" ../llvm
 ninja -j4
 ninja install
